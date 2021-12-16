@@ -4,11 +4,14 @@
 #include "stdio.h"
 #include "inside.h"
 
+#include <stdbool.h>
+
 enum read_status  {
     READ_OK = 0,
     READ_INVALID_SIGNATURE,
     READ_INVALID_BITS,
-    READ_INVALID_HEADER
+    READ_INVALID_HEADER,
+    FILE_NOT_FOUND
 };
 
 enum  write_status  {
