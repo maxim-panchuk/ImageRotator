@@ -4,8 +4,6 @@
 #include "stdio.h"
 #include "inside.h"
 
-#include <stdbool.h>
-
 enum read_status  {
     READ_OK = 0,
     READ_INVALID_SIGNATURE,

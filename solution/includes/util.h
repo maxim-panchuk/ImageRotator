@@ -7,19 +7,19 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-
-
 enum open_status {
     OPEN_OK = 0,
     OPEN_FAILED
 };
 
-enum close_status {
-    CLOSE_OK = 0,
-    CLOSE_FAILED
+enum save_status {
+    SAVED_OK = 0,
+    SAVING_FAILED
 };
 
 enum open_status open_file (const char * path_to_file, FILE ** file);
+enum save_status save_file (const char * path_to_file, FILE ** file);
+
 _Noreturn void err (const char * msg, ... );
 
 #endif

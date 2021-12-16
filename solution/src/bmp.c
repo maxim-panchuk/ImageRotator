@@ -41,11 +41,9 @@ static bool to_image (FILE * file, const struct bmp_header header, struct image 
         for (uint32_t j = 0; j < img->width; j++) {
             struct pixel px = {0};
             if (!fread(&px, sizeof (struct pixel), 1, file)) return false;
-            if (j < img->width && i < img->height)
-                img->data[i * img->width + j] = px;
-            else return false;
-            fseek(file, calc_padding(img->width), SEEK_CUR);
+            set_pixel(img, px, j, i);
         }
+        fseek(file, calc_padding(img->width), SEEK_CUR);
     }
     return true;
 }
@@ -71,7 +69,7 @@ enum read_status from_bmp( FILE* in, struct image* img ) {
     struct bmp_header head = {0};
     if (!fread(&head, sizeof(struct bmp_header), 1, in)) return READ_INVALID_HEADER;
     if (!validate_header(head)) return READ_INVALID_SIGNATURE;
-    if (!to_bmp(in, img)) return READ_INVALID_BITS;
+    if (!to_image(in, head, img)) return READ_INVALID_BITS;
     return READ_OK;
 }
 
@@ -80,7 +78,7 @@ enum write_status to_bmp( FILE* out, struct image const* img ) {
     if (!fwrite(&header, sizeof (struct bmp_header), 1, out)) return WRITE_ERROR;
     for (uint32_t i = 0; i < img->height; i++) {
         for (uint32_t j = 0; j < img->width; j++) {
-            struct pixel px = img->data[i * img->width + j];
+            struct pixel px = get_pixel(img, j, i);
             if (!fwrite(&px, sizeof (struct pixel), 1, out)) return WRITE_ERROR;
         }
         if (!write_offset(out, img->width)) return WRITE_ERROR;
