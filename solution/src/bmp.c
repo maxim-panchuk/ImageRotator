@@ -40,7 +40,10 @@ static bool to_image (FILE * file, const struct bmp_header header, struct image 
     for (uint32_t i = 0; i < img->height; i++) {
         for (uint32_t j = 0; j < img->width; j++) {
             struct pixel px = {0};
-            if (!fread(&px, sizeof (struct pixel), 1, file)) return false;
+            if (!fread(&px, sizeof (struct pixel), 1, file)) {
+                destroy(img);
+                return false;
+            }
             set_pixel(img, px, j, i);
         }
         fseek(file, calc_padding(img->width), SEEK_CUR);

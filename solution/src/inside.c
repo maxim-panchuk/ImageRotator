@@ -9,6 +9,10 @@ struct image define_image (uint32_t width, uint32_t height) {
     return img;
 }
 
+void destroy (struct image * img) {
+    free(img->data);
+}
+
 bool set_pixel (struct image* img, struct pixel px, uint32_t x, uint32_t y) {
     if (x < img->width && y < img->height) {
         img->data[y * img->width + x] = px;
