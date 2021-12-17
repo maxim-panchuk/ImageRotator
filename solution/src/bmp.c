@@ -46,7 +46,10 @@ static bool to_image (FILE * file, const struct bmp_header header, struct image 
             }
             set_pixel(img, px, j, i);
         }
-        fseek(file, calc_padding(img->width), SEEK_CUR);
+        if ((img->width) * 3 % 4) {
+            fseek(file, calc_padding(img->width), SEEK_CUR);
+        }
+
     }
     return true;
 }
