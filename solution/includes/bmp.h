@@ -1,8 +1,9 @@
 #ifndef _BMP_H
 #define _BMP_H
 
-#include "stdio.h"
 #include "inside.h"
+#include "stdio.h"
+
 
 enum read_status  {
     READ_OK = 0,
