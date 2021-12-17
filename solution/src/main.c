@@ -2,7 +2,6 @@
 #include "../includes/util.h"
 #include <stdio.h>
 
-
 void usage () {
     fprintf(stderr, "Usage: ./build/image-transformer \n");
 }

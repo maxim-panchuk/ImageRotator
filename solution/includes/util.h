@@ -2,11 +2,9 @@
 #define _UTIL_H
 
 #include "bmp.h"
-
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 
 enum open_status {
     OPEN_OK = 0,
