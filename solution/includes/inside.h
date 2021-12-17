@@ -1,8 +1,10 @@
 #ifndef _INSIDE_H
 #define _INSIDE_H
+
+#include <mm_malloc.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <malloc/malloc.h>
+
 
 struct image {
     uint64_t width, height;
