@@ -3,8 +3,9 @@
 
 
 #include <mm_malloc.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
+
 
 struct image {
     uint64_t width, height;
