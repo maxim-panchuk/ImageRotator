@@ -1,8 +1,7 @@
-#include "../includes/util.h"
-#include "../includes/image.h"
 #include "../includes/bmp.h"
+#include "../includes/image.h"
 #include "../includes/rotation.h"
-
+#include "../includes/util.h"
 
 void usage () {
     fprintf(stderr, "Usage: ./build/image-transformer \n");

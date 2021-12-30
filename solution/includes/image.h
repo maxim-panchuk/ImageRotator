@@ -1,7 +1,7 @@
 #ifndef _IMAGE_H
 #define _IMAGE_H
-#include "stdint.h"
 #include "stdbool.h"
+#include "stdint.h"
 #include "mm_malloc.h"
 
 enum read_status {
