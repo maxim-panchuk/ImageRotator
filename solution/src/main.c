@@ -1,54 +1,62 @@
-#include "../includes/rotate.h"
 #include "../includes/util.h"
-#include <stdio.h>
+#include "../includes/image.h"
+#include "../includes/bmp.h"
+#include "../includes/rotation.h"
+
 
 void usage () {
     fprintf(stderr, "Usage: ./build/image-transformer \n");
 }
 
-
-
-int main( int argc, char** argv ) {
+int main (int argc, char ** argv) {
     if (argc != 3) usage();
     if (argc < 3) err("Not enough arguments \n");
     if (argc > 3) err("Too many arguments \n");
-    FILE * file;
-    FILE * out_file;
-    if (open_file(argv[1], &file) != 0) err("Failed to open file \n");
+
+    FILE * source_file;
+    FILE * destination_file;
+    if (read_file(argv[1], &source_file) != 0) err("can't open source file \n");
+    if (write_file(argv[2], &destination_file) != 0) err("can't open destination file \n");
+
     struct image img = {0};
-
-    switch (from_bmp(file, &img)) {
-        case 4:
-            destroy(&img);
-            err("File not found \n");
+    switch (from_bmp(source_file, &img)) {
+        case READ_INVALID_BITS: {
+            fprintf(stderr, "Invalid bits\n");
+            close_file(source_file);
+            return 1;
+        }
+        case READ_INVALID_SIGNATURE: {
+            fprintf(stderr, "Invalid bmp signature\n");
+            close_file(source_file);
+            return 1;
+        }
+        case READ_INVALID_HEADER: {
+            fprintf(stderr, "Invalid bmp header\n");
+            close_file(source_file);
+            return 1;
+        }
+        case READ_ERROR: {
+            fprintf(stderr, "Can't open file \n");
+            close_file(source_file);
+            return 1;
+        }
+        case READ_OK: {
             break;
-        case 1:
-            destroy(&img);
-            err("Invalid signature \n");
-            break;
-        case 2:
-            destroy(&img);
-            err("Invalid bits \n");
-            break;
-        case 3:
-            destroy(&img);
-            err("Invalid header \n");
-            break;
-        case 0:
-            break;
+        }
     }
-
-    struct image rotated_img = rotate(img);
-    if (save_file(argv[2], &out_file) != 0) {
-        destroy(&img);
-        err("Failed to open destination file \n");
+    if(close_file(source_file) != 0) {
+        fprintf(stderr, "Error while trying to close the file '\n");
+        destroy_img(&img);
+        return 1;
     }
-    if (to_bmp(out_file, &rotated_img) != 0) {
-        destroy(&img);
-        err("Failed to transform file \n");
+    struct image new_img = rotate(&img);
+    destroy_img(&img);
+    if (to_bmp(destination_file, &new_img)) {
+        fprintf(stderr, "Error while trying to write bmp file\n");
+        destroy_img(&new_img);
+        close_file(destination_file);
+        return 1;
     }
-
-    fclose(file);
-    fclose(out_file);
-
+    return 0;
 }
+

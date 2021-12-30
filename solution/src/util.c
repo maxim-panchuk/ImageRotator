@@ -8,16 +8,21 @@ _Noreturn void err (const char * msg, ... ) {
     exit(1);
 }
 
-enum open_status open_file (const char * path_to_file, FILE ** file) {
-    if ((*file = fopen(path_to_file, "rb")) == NULL) {
-        return OPEN_FAILED;
-    }
-    return OPEN_OK;
+enum open_read_status read_file (const char * path_to_file, FILE ** file) {
+    if ((*file = fopen(path_to_file, "rb")) == NULL) return OPEN_READ_FAILED;
+    return OPEN_READ_OK;
 }
 
-enum save_status save_file (const char * path_to_file, FILE ** file) {
-    if ((*file = fopen(path_to_file, "wb")) == NULL) return SAVING_FAILED;
-    return SAVED_OK;
+enum open_write_status write_file (const char * path_to_file, FILE ** file) {
+    if ((*file = fopen(path_to_file, "wb")) == NULL) return OPEN_WRITE_FAILED;
+    return OPEN_WRITE_OK;
 }
+
+enum close_status close_file (FILE * file) {
+    if (fclose(file)) return CLOSE_FAILED;
+    return CLOSE_OK;
+}
+
+
 
 
