@@ -65,6 +65,7 @@ enum read_status from_bmp (FILE * in, struct image * img) {
     return READ_OK;
 }
 
+
 enum write_status to_bmp (FILE * out, const struct image * img) {
     if (!out) return WRITE_ERROR;
     struct bmp_header header = create_bmp_header(img);
