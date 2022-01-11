@@ -56,6 +56,7 @@ int main (int argc, char ** argv) {
         close_file(destination_file);
         return 1;
     }*/
+    to_bmp(destination_file, &new_img);
     free(new_img.data);
     free(img.data);
     return 0;
