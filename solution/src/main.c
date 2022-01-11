@@ -49,13 +49,15 @@ int main (int argc, char ** argv) {
         return 1;
     }
     struct image new_img = rotate(&img);
-    destroy_img(&img);
-    if (to_bmp(destination_file, &new_img)) {
+    //destroy_img(&img);
+    /*if (to_bmp(destination_file, &new_img)) {
         fprintf(stderr, "Error while trying to write bmp file\n");
         destroy_img(&new_img);
         close_file(destination_file);
         return 1;
-    }
+    }*/
+    free(new_img.data);
+    free(img.data);
     return 0;
 }
 
