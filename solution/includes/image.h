@@ -4,7 +4,6 @@
 #include "stdbool.h"
 #include "stdint.h"
 
-
 enum read_status {
     READ_OK = 0,
     READ_INVALID_SIGNATURE,
@@ -18,7 +17,8 @@ enum write_status  {
     WRITE_ERROR
 };
 
-struct pixel {
+
+struct __attribute__ ((packed)) pixel {
     uint8_t r, g, b;
 };
 
